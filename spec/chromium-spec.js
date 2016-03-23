@@ -166,6 +166,27 @@ describe('chromium feature', function() {
       b = window.open("file://" + fixtures + "/pages/window-opener-node.html", '', 'nodeIntegration=no,show=no');
     });
 
+    it('disables node integration when it is disabled on the parent window', function(done) {
+      var b;
+      listener = function(event) {
+        assert.equal(event.data, 'undefined');
+        b.close();
+        done();
+      };
+      window.addEventListener('message', listener);
+
+      var windowUrl = require('url').format({
+        pathname: fixtures + "/pages/window-opener-no-node-integration.html",
+        protocol: 'file',
+        query: {
+          p: fixtures + "/pages/window-opener-node.html"
+        },
+        slashes: true
+      });
+      console.log(windowUrl);
+      b = window.open(windowUrl, 'nodeIntegration=no,show=no');
+    });
+
     it('inherit options of parent window', function(done) {
       var b;
       listener = function(event) {
