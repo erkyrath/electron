@@ -166,7 +166,7 @@ describe('chromium feature', function() {
       b = window.open("file://" + fixtures + "/pages/window-opener-node.html", '', 'nodeIntegration=no,show=no');
     });
 
-    it.only('disables node integration when it is disabled on the parent window', function(done) {
+    it('disables node integration when it is disabled on the parent window', function(done) {
       var b;
       listener = function(event) {
         assert.equal(event.data.isProcessGlobalUndefined, true);
