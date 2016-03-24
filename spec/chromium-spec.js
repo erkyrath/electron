@@ -183,7 +183,7 @@ describe('chromium feature', function() {
         },
         slashes: true
       });
-      b = window.open(windowUrl, 'nodeIntegration=no,show=no');
+      b = window.open(windowUrl, '', 'nodeIntegration=no,show=no');
     });
 
     it('inherit options of parent window', function(done) {
