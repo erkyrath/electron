@@ -2,9 +2,7 @@ const assert = require('assert');
 const path = require('path');
 const http = require('http');
 const url = require('url');
-
-const {remote} = require('electron');
-const {app, BrowserWindow} = remote;
+const {app, session} = require('electron').remote;
 
 describe('<webview> tag', function() {
   this.timeout(10000);
@@ -96,10 +94,9 @@ describe('<webview> tag', function() {
     }
 
     it('disables node integration on child windows when it is disabled on the webview', function (done) {
-      let openedWindow;
       app.once('browser-window-created', function (event, window) {
         assert.equal(window.webContents.getWebPreferences().nodeIntegration, false);
-        done()
+        done();
       });
 
       webview.setAttribute('allowpopups', 'on');
@@ -704,7 +701,6 @@ describe('<webview> tag', function() {
 
   describe('permission-request event', function() {
     function setUpRequestHandler(webview, requested_permission) {
-      const session = require('electron').remote.session;
       var listener = function(webContents, permission, callback) {
         if (webContents.getId() === webview.getId() ) {
           assert.equal(permission, requested_permission);
