@@ -4,7 +4,7 @@ const http = require('http');
 const url = require('url');
 
 const {remote} = require('electron');
-const {BrowserWindow} = remote;
+const {app, BrowserWindow} = remote;
 
 describe('<webview> tag', function() {
   this.timeout(10000);
@@ -96,15 +96,10 @@ describe('<webview> tag', function() {
     }
 
     it('disables node integration on child windows when it is disabled on the webview', function (done) {
-      webview.addEventListener('console-message', function(e) {
-        assert.equal(e.message, 'window opened');
-        const sourceId = remote.getCurrentWindow().id;
-        const windows = BrowserWindow.getAllWindows().filter(function (window) {
-          return window.id !== sourceId;
-        });
-        assert.equal(windows.length, 1);
-        assert.equal(windows[0].webContents.getWebPreferences().nodeIntegration, false);
-        done();
+      let openedWindow;
+      app.once('browser-window-created', function (event, window) {
+        assert.equal(window.webContents.getWebPreferences().nodeIntegration, false);
+        done()
       });
 
       webview.setAttribute('allowpopups', 'on');
