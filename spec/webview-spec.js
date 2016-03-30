@@ -100,8 +100,8 @@ describe('<webview> tag', function() {
         assert.equal(e.message, 'window opened');
         const sourceId = remote.getCurrentWindow().id;
         const windows = BrowserWindow.getAllWindows().filter(function (window) {
-          return window.id !== sourceId
-        })
+          return window.id !== sourceId;
+        });
         assert.equal(windows.length, 1);
         assert.equal(windows[0].webContents.getWebPreferences().nodeIntegration, false);
         done();
@@ -118,7 +118,7 @@ describe('<webview> tag', function() {
         slashes: true
       });
       document.body.appendChild(webview);
-    })
+    });
   });
 
   describe('preload attribute', function() {
